@@ -6,7 +6,6 @@ import (
 	"go_demo/models"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"strconv"
 	"strings"
 
