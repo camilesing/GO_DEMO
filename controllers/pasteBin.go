@@ -172,7 +172,7 @@ func (c *PasteBinController) Delete() {
 	c.ServeJSON()
 }
 
-func (poster string, syntax string, cotent string) httpPostForm(string, error) {
+func httpPostForm(poster string, syntax string, cotent string) (string, error) {
 	url := "http://pastebin.ubuntu.com/"
 	resp, err := http.PostForm(url,
 		url.Values{"poster": {poster}, "syntax": {syntax}, "content": {cotent}})
