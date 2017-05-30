@@ -6,6 +6,7 @@ import (
 	"go_demo/models"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -174,8 +175,8 @@ func (c *PasteBinController) Delete() {
 }
 
 func httpPostForm(poster string, syntax string, cotent string) (string, error) {
-	url := "http://pastebin.ubuntu.com/"
-	resp, err := http.PostForm(url,
+	urlStr := "http://pastebin.ubuntu.com/"
+	resp, err := http.PostForm(urlStr,
 		url.Values{"poster": {poster}, "syntax": {syntax}, "content": {cotent}})
 
 	if err != nil {
