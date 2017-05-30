@@ -48,6 +48,9 @@ func (c *PasteBinController) Post() {
 		c.Data["json"] = err.Error()
 	}
 	result, err := httpPostForm(v.Poster, v.Syntax, v.Content)
+	if err != nil {
+		c.Data["json"] = err
+	}
 	c.Data["json"] = result
 	c.ServeJSON()
 }
