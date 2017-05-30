@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"go_demo/models"
+	"log"
 	"strconv"
 	"strings"
 
@@ -43,6 +44,7 @@ func (c *PasteBinController) Post() {
 	} else {
 		c.Data["json"] = err.Error()
 	}
+	httpPostForm(v.Poster, v.Syntax, v.Content)
 	c.ServeJSON()
 }
 
@@ -168,4 +170,37 @@ func (c *PasteBinController) Delete() {
 		c.Data["json"] = err.Error()
 	}
 	c.ServeJSON()
+}
+
+func (poster string, syntax string, cotent string) httpPostForm(string, error) {
+	url := "http://pastebin.ubuntu.com/"
+	resp, err := http.PostForm(url,
+		url.Values{"poster": {poster}, "syntax": {syntax}, "content": {cotent}})
+
+	if err != nil {
+		errorStr := "error happend when post form, error info: "
+		return errorStr, errors.New(errorStr)
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		errorStr := "error happend when read HTTP Request body , error info: "
+		return errorStr, errors.New(errorStr)
+	}
+
+	str_body := (string(body))
+	preStr := "pturl\" href=\""
+	nextStr := "/plain/\">Download as text"
+	index1 := strings.Index(str_body, preStr)
+	index2 := strings.Index(str_body, nextStr)
+	preStrSize := len(preStr)
+	if index1 < 0 || index2 < 0 {
+		errorStr := "please set correctly syntax type "
+		return errorStr, errors.New(errorStr)
+	}
+	str := str_body[index1+preStrSize : index2]
+	resultStr := "http://pastebin.ubuntu.com" + str
+	return resultStr, nil
+
 }
