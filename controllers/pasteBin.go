@@ -5,6 +5,7 @@ import (
 	"errors"
 	"go_demo/models"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -203,6 +204,7 @@ func httpPostForm(poster string, syntax string, cotent string) (string, error) {
 	}
 	str := str_body[index1+preStrSize : index2]
 	resultStr := "http://pastebin.ubuntu.com" + str
+	log.Println(resultStr)
 	return resultStr, nil
 
 }
